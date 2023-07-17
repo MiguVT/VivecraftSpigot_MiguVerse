@@ -13,17 +13,22 @@ VSE is a companion plugin for [Vivecraft](http://www.vivecraft.org), the VR mod 
 VSE is for [Spigot](https://www.spigotmc.org/) servers and adds several enhancements for VR players.
 
 # Disclaimer
-This is NOT the original version of VSE. This is a modified version of the original
-to fix various issues, add a working API, and *attempts* to *partially* fix some of the worst 
-Spigot code I have ever seen. I intended for my code to merged into the original
-project, but the developers have not responded to my multiple requests in 6 months.
-So I created this project to add VR support to [WeaponMechanics](https://www.spigotmc.org/resources/99913/). 
+This is NOT the [original version of VSE](https://www.spigotmc.org/resources/33166/). 
+This is a modified version of the original to fix various issues, add a working API, 
+and *attempts* to *partially* fix the spaghetti code present in the original code. 
+I intended for my code to merged into the original project, but the developers have 
+not responded to my multiple requests in 6 months. So I created this project to add 
+VR support to [WeaponMechanics](https://www.spigotmc.org/resources/99913/). 
 Any other developers are free to use this plugin to add their own VR support.
 
 I do **NOT**:
  * provide support for this plugin
  * have any plans to add any new features
  * have any associations with the original plugin
+
+Please do not join the Vivecraft discord or the CubeDevelopment discord expecting
+support for this plugin, neither of us will give you support. Instead, consider
+[opening a bug report](https://github.com/CJCrafter/Vivecraft_Spigot_Extensions/issues).
 
 Please consider downloading the [original version](https://www.spigotmc.org/resources/33166/) instead.
 
