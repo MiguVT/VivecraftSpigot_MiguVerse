@@ -47,7 +47,7 @@ import org.vivecraft.VivePlayer;
 import java.util.*;
 import java.util.function.Predicate;
 
-public class Vivecraft_1_19_R3 implements VivecraftCompatibility {
+public class Vivecraft_v1_19_R3 implements VivecraftCompatibility {
 
     private static Class<?> classEndermanFreezeWhenLookedAt;
     private static Class<?> classEndermanLookForPlayerGoal;
@@ -59,11 +59,11 @@ public class Vivecraft_1_19_R3 implements VivecraftCompatibility {
     private static Reflector.MethodAccessor teleportTowardsAccessor;
 
 
-    public Vivecraft_1_19_R3() {
-        classEndermanFreezeWhenLookedAt = Reflector.getNMSClass("net.minecraft.world.entity.monster", "EntityEnderman$a");
-        classEndermanLookForPlayerGoal = Reflector.getNMSClass("net.minecraft.world.entity.monster", "EntityEnderman$PathfinderGoalPlayerWhoLookedAtTarget");
-        poseAccessor = Reflector.getField(Entity.class, EntityDataAccessor.class, 5);
-        itemsByIdAccessor = Reflector.getField(SynchedEntityData.class, Int2ObjectMap.class, 0);
+    public Vivecraft_v1_19_R3() {
+        classEndermanFreezeWhenLookedAt = Reflector.getNMSClass("world.entity.monster", "EntityEnderman$a");
+        classEndermanLookForPlayerGoal = Reflector.getNMSClass("world.entity.monster", "EntityEnderman$PathfinderGoalPlayerWhoLookedAtTarget");
+        poseAccessor = Reflector.getField(Entity.class, EntityDataAccessor.class, 6, false);
+        itemsByIdAccessor = Reflector.getField(SynchedEntityData.class, Int2ObjectMap.class);
         eyeHeightAccessor = Reflector.getField(Entity.class, "bf");  // https://nms.screamingsandals.org/1.19.4/net/minecraft/world/entity/Entity.html
         fallFlyTicksAccessor = Reflector.getField(LivingEntity.class, "bw");  // https://nms.screamingsandals.org/1.19.4/net/minecraft/world/entity/LivingEntity.html
         teleportAccessor = Reflector.getMethod(EnderMan.class, "w");  // https://nms.screamingsandals.org/1.19.4/net/minecraft/world/entity/monster/EnderMan.html

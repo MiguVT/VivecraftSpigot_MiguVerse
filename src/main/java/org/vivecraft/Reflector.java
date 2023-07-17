@@ -114,7 +114,7 @@ public final class Reflector {
     }
 
     /**
-     * Shorthand for {@link #getField(Class, Class, int)}.
+     * Shorthand for {@link #getField(Class, Class, int, boolean)}.
      *
      * @param target Which class to search in.
      * @param type   The type we are looking for.
@@ -122,7 +122,7 @@ public final class Reflector {
      * @throws IllegalArgumentException If no such field exists.
      */
     public static FieldAccessor getField(Class<?> target, Class<?> type) {
-        return getField(target, type, 0);
+        return getField(target, type, 0, true);
     }
 
     /**
@@ -136,14 +136,14 @@ public final class Reflector {
      * @return The non-null field.
      * @throws IllegalArgumentException If no such field exists.
      */
-    public static FieldAccessor getField(Class<?> target, Class<?> type, int index) {
+    public static FieldAccessor getField(Class<?> target, Class<?> type, int index, boolean skipStatic) {
         for (final Field field : target.getDeclaredFields()) {
 
             // Type check. Make sure the field's datatype
             // matches the data type we are trying to find
             if (!type.isAssignableFrom(field.getType()))
                 continue;
-            if (Modifier.isStatic(field.getModifiers()))
+            if (skipStatic && Modifier.isStatic(field.getModifiers()))
                 continue;
             if (index-- > 0)
                 continue;
@@ -159,7 +159,7 @@ public final class Reflector {
         // the super class for the field
         Class<?> superClass = target.getSuperclass();
         if (superClass != null)
-            return getField(superClass, type, index);
+            return getField(superClass, type, index, skipStatic);
 
         throw new IllegalArgumentException("Cannot find field with type " + type);
     }
