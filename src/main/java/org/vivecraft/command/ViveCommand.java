@@ -39,6 +39,10 @@ public class ViveCommand implements CommandExecutor {
         p.sendMessage(ChatColor.BLUE + "[" + ChatColor.GRAY + "Vivecraft" + ChatColor.BLUE + "] " + ChatColor.WHITE + message);
     }
 
+    private boolean hasCommandPermission(CommandSender sender) {
+        return sender.isOp() || sender.hasPermission("vive.command");
+    }
+
     @SuppressWarnings("rawtypes")
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
@@ -50,7 +54,7 @@ public class ViveCommand implements CommandExecutor {
 
         String command = args[0].toLowerCase();
 
-        if (command.equals("vive-only") && sender.isOp()) {
+        if (command.equals("vive-only") && hasCommandPermission(sender)) {
             if (args.length >= 2) {
                 if (args[1].equalsIgnoreCase("true")) {
                     plugin.getConfig().set("vive-only.enabled", true);
@@ -64,7 +68,7 @@ public class ViveCommand implements CommandExecutor {
                 sendMessage("Vive-Only: " + plugin.getConfig().get("vive-only.enabled"), sender);
             }
             plugin.saveConfig();
-        } else if (command.equals("sendplayerdata") && sender.isOp()) {
+        } else if (command.equals("sendplayerdata") && hasCommandPermission(sender)) {
             if (args.length >= 2) {
                 if (args[1].equalsIgnoreCase("true")) {
                     plugin.getConfig().set("SendPlayerData.enabled", true);
@@ -76,7 +80,7 @@ public class ViveCommand implements CommandExecutor {
             } else {
                 sendMessage("SendPlayerData: " + plugin.getConfig().get("SendPlayerData.enabled"), sender);
             }
-        } else if (command.equals("creeperradius") && sender.isOp()) {
+        } else if (command.equals("creeperradius") && hasCommandPermission(sender)) {
             if (args.length >= 2) {
                 if (args[1].equalsIgnoreCase("true")) {
                     plugin.getConfig().set("CreeperRadius.enabled", true);
@@ -95,7 +99,7 @@ public class ViveCommand implements CommandExecutor {
             } else {
                 sendMessage("Creeper Radius: " + plugin.getConfig().get("CreeperRadius.enabled") + " Radius set to: " + plugin.getConfig().getDouble("CreeperRadius.radius"), sender);
             }
-        } else if (command.equals("waittime") && sender.isOp()) {
+        } else if (command.equals("waittime") && hasCommandPermission(sender)) {
             if (args.length >= 2) {
                 try {
                     plugin.getConfig().set("vive-only.waittime", Integer.parseInt(args[1]));
@@ -107,7 +111,7 @@ public class ViveCommand implements CommandExecutor {
                 sendMessage("waittime: " + plugin.getConfig().get("vive-only.waittime"), sender);
             }
             plugin.saveConfig();
-        } else if (command.equals("bow") && sender.isOp()) {
+        } else if (command.equals("bow") && hasCommandPermission(sender)) {
             if (args.length >= 2) {
                 try {
                     plugin.getConfig().set("bow.multiplier", Integer.parseInt(args[1]));
@@ -139,7 +143,7 @@ public class ViveCommand implements CommandExecutor {
                 sendMessage(vp.player.getDisplayName() + ": " + (vp.isVR() ? "VR " + (vp.isSeated() ? "SEATED" : "STANDING") : "NONVR"), sender);
             }
 
-        } else if (command.equals("set") && sender.isOp()) {
+        } else if (command.equals("set") && hasCommandPermission(sender)) {
             if (args.length >= 3) {
                 String config = args[1];
                 if (plugin.getConfig().get(config) != null) {
@@ -192,14 +196,14 @@ public class ViveCommand implements CommandExecutor {
                 sender.sendMessage(ChatColor.BLUE + cm.getCommand() + ": " + ChatColor.WHITE + cm.getDescription());
             }
         } else {
-            if (!sender.isOp()) {
+            if (!hasCommandPermission(sender)) {
                 sendMessage("You must be OP to use these commands", sender);
             } else
                 sendMessage("Unknown command", sender);
         }
 
 
-        if (sender.isOp()) plugin.saveConfig();
+        if (hasCommandPermission(sender)) plugin.saveConfig();
 
         return true;
     }

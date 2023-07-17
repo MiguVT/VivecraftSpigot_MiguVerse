@@ -6,9 +6,10 @@ import org.bstats.charts.AdvancedPie;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
+import org.bukkit.World;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.entity.Player;
+import org.bukkit.entity.*;
 import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
@@ -169,10 +170,47 @@ public class VSE extends JavaPlugin implements Listener {
         }, 20, 1);
 
 
+        CheckAllEntities();
+
         vault = true;
         if (getServer().getPluginManager().getPlugin("Vault") == null || getServer().getPluginManager().getPlugin("Vault").isEnabled() == false) {
             getLogger().severe("Vault not found, permissions groups will not be set");
             vault = false;
+        }
+    }
+
+    public void CheckAllEntities(){
+        List<World> wrl = this.getServer().getWorlds();
+        for(World world: wrl){
+            for(Entity e: world.getLivingEntities()){
+                EditEntity(e);
+            }
+        }
+    }
+
+    public void EditEntity(Entity entity){
+        if (entity instanceof Creeper creeper) {
+            double newRadius = VSE.me.getConfig().getDouble("CreeperRadius.radius", 3.0);
+            CompatibilityAPI.getCompatibility().injectCreeper(creeper, newRadius);
+        }
+        else if (entity instanceof Enderman enderman) {
+            CompatibilityAPI.getCompatibility().injectEnderman(enderman);
+        }
+    }
+
+    public void sendVRActiveUpdate(VivePlayer v) {
+        if(v==null) return;
+        var payload = v.getVRPacket();
+        for (VivePlayer sendTo : vivePlayers.values()) {
+
+            if (sendTo == null || sendTo.player == null || !sendTo.player.isOnline())
+                continue; // dunno y but just in case.
+
+            if (v == sendTo ||v.player == null || !v.player.isOnline()){
+                continue;
+            }
+
+            sendTo.player.sendPluginMessage(this, CHANNEL, payload);
         }
     }
 
@@ -284,9 +322,10 @@ public class VSE extends JavaPlugin implements Listener {
     public void broadcastConfigString(String node, String playername) {
         String message = this.getConfig().getString(node);
         if (message == null || message.isEmpty()) return;
-        String format = message.replace("&player", playername);
+        String[] formats = message.replace("&player", playername).split("\\n");
         for (Player p : Bukkit.getOnlinePlayers()) {
-            ViveCommand.sendMessage(format, p);
+            for (String line : formats)
+                ViveCommand.sendMessage(line, p);
         }
     }
 

@@ -9,6 +9,7 @@ import org.vivecraft.compatibility.CompatibilityAPI;
 import org.vivecraft.utils.MetadataHelper;
 
 import java.io.*;
+import java.nio.charset.Charset;
 import java.util.Arrays;
 
 public class VivecraftNetworkListener implements PluginMessageListener {
@@ -32,7 +33,7 @@ public class VivecraftNetworkListener implements PluginMessageListener {
     }
 
     public static boolean writeString(ByteArrayOutputStream output, String str) {
-        byte[] bytes = str.getBytes(Charsets.UTF_8);
+        byte[] bytes = str.getBytes(Charset.forName("UTF-8"));
         int len = bytes.length;
         try {
             if (!writeVarInt(output, len, 2))
@@ -122,6 +123,11 @@ public class VivecraftNetworkListener implements PluginMessageListener {
 
                     if (vse.getConfig().getBoolean("crawling.enabled") == true)
                         sender.sendPluginMessage(vse, VSE.CHANNEL, new byte[]{(byte) PacketDiscriminators.CRAWL.ordinal()});
+
+                    if (vse.getConfig().getBoolean("general.vive-only") == false)
+                        sender.sendPluginMessage(vse, VSE.CHANNEL, new byte[]{(byte) PacketDiscriminators.VR_SWITCHING.ordinal(), 1});
+                    else
+                        sender.sendPluginMessage(vse, VSE.CHANNEL, new byte[]{(byte) PacketDiscriminators.VR_SWITCHING.ordinal(), 0});
 
                     if (vse.getConfig().getBoolean("climbey.enabled") == true) {
 
@@ -244,6 +250,27 @@ public class VivecraftNetworkListener implements PluginMessageListener {
                     e2.printStackTrace();
                 }
                 break;
+            case IS_VR_ACTIVE:
+                ByteArrayInputStream vrb = new ByteArrayInputStream(data);
+                DataInputStream vrd = new DataInputStream(vrb);
+                boolean vr;
+                try {
+                    vr = vrd.readBoolean();
+                    if(vp.isVR()==vr) break;
+                    vp.setVR(vr);
+                    if (!vr) {
+                        vse.sendVRActiveUpdate(vp);
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                break;
+            case NETWORK_VERSION:
+                //don't care yet.
+                break;
+            case VR_PLAYER_STATE:
+                //todo.
+                break;
             default:
                 break;
         }
@@ -283,6 +310,10 @@ public class VivecraftNetworkListener implements PluginMessageListener {
         SETTING_OVERRIDE,
         HEIGHT,
         ACTIVEHAND,
-        CRAWL
+        CRAWL,
+        NETWORK_VERSION,
+        VR_SWITCHING,
+        IS_VR_ACTIVE,
+        VR_PLAYER_STATE
     }
 }

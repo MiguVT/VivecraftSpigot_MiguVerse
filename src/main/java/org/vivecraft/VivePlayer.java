@@ -250,6 +250,12 @@ public class VivePlayer {
 
     public void setVR(boolean vr) {
         this.isVR = vr;
+        if (!isVR) {
+            this.hmdData=null;
+            this.controller0data=null;
+            this.controller1data=null;
+            this.draw=null;
+        }
     }
 
     public boolean isSeated() {
@@ -292,4 +298,15 @@ public class VivePlayer {
 
     }
 
+    public byte[] getVRPacket() {
+        ByteArrayOutputStream output = new ByteArrayOutputStream();
+        try {
+            output.write((byte) VivecraftNetworkListener.PacketDiscriminators.IS_VR_ACTIVE.ordinal());
+            output.write(isVR? 1 : 0);
+            output.write(java.nio.ByteBuffer.allocate(8).putLong(player.getUniqueId().getMostSignificantBits()).array());
+            output.write(java.nio.ByteBuffer.allocate(8).putLong(player.getUniqueId().getLeastSignificantBits()).array());
+        } catch (IOException e) {
+        }
+        return output.toByteArray();
+    }
 }
