@@ -1,10 +1,13 @@
+import com.github.breadmoirai.githubreleaseplugin.GithubReleaseTask
 import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 
+
 group = "org.vivecraft"
-version = "2.0.0"
+version = "2.1.0"
 
 plugins {
     `java-library`
+    id("com.github.breadmoirai.github-release") version "2.4.1"
     id("com.github.johnrengelman.shadow") version "7.1.0"
     id("net.minecrell.plugin-yml.bukkit") version "0.5.2"
 }
@@ -29,6 +32,33 @@ bukkit {
             usage = "/vive <command>"
             aliases = listOf("vse")
         }
+    }
+}
+
+// https://github.com/BreadMoirai/github-release-gradle-plugin
+tasks.register<GithubReleaseTask>("createGithubRelease").configure {
+
+    owner.set("CJCrafter")
+    repo.set("Vivecraft_Spigot_Extensions")
+    authorization.set("Token ${findProperty("pass").toString()}")
+    tagName.set("${project.version}")
+    targetCommitish.set("master")
+    releaseName.set("${project.version}")
+    draft.set(false)
+    prerelease.set(false)
+    generateReleaseNotes.set(true)
+    body.set("")
+    overwrite.set(false)
+    allowUploadToExisting.set(false)
+    apiEndpoint.set("https://api.github.com")
+
+    setReleaseAssets(file("build/libs").listFiles())
+
+    // If set to true, you can debug that this would do
+    dryRun.set(false)
+
+    doFirst {
+        println("Creating GitHub release")
     }
 }
 

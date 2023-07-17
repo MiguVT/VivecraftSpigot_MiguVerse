@@ -36,6 +36,7 @@ lib/
 
 # Ignore Gradle project-specific cache directory
 .gradle
+gradle.properties
 
 # Ignore Gradle build output directory
 build
