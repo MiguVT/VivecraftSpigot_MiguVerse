@@ -14,10 +14,8 @@ import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.scheduler.BukkitRunnable;
 import org.vivecraft.command.ConstructTabCompleter;
 import org.vivecraft.command.ViveCommand;
 import org.vivecraft.compatibility.CompatibilityAPI;
@@ -27,16 +25,11 @@ import org.vivecraft.listeners.VivecraftItemListener;
 import org.vivecraft.listeners.VivecraftNetworkListener;
 import org.vivecraft.utils.Headshot;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.URL;
 import java.util.*;
 import java.util.concurrent.Callable;
 
 public class VSE extends JavaPlugin implements Listener {
     public final static String CHANNEL = "vivecraft:data";
-    private final static String readurl = "https://raw.githubusercontent.com/jrbudda/Vivecraft_Spigot_Extensions/1.19/version.txt";
     private final static int bStatsId = 6931;
     public static Map<UUID, VivePlayer> vivePlayers = new HashMap<>();
     public static VSE me;
@@ -181,12 +174,6 @@ public class VSE extends JavaPlugin implements Listener {
             getLogger().severe("Vault not found, permissions groups will not be set");
             vault = false;
         }
-        getServer().getScheduler().scheduleAsyncDelayedTask(this, new BukkitRunnable() {
-            @Override
-            public void run() {
-                startUpdateCheck();
-            }
-        }, 1);
     }
 
     public void sendPosData() {
@@ -215,37 +202,6 @@ public class VSE extends JavaPlugin implements Listener {
     public void onDisable() {
         getServer().getScheduler().cancelTask(sendPosDataTask);
         super.onDisable();
-    }
-
-    public void startUpdateCheck() {
-        PluginDescriptionFile pdf = getDescription();
-        String version = pdf.getVersion();
-        getLogger().info("Version: " + version);
-        if (getConfig().getBoolean("general.checkforupdate", true)) {
-            try {
-                getLogger().info("Checking for update...");
-                URL url = new URL(readurl);
-                BufferedReader br = new BufferedReader(new InputStreamReader(url.openStream()));
-                String str;
-                String updatemsg = null;
-                while ((str = br.readLine()) != null) {
-                    String line = str;
-                    String[] bits = line.split(":");
-                    if (bits[0].trim().equalsIgnoreCase(version)) {
-                        updatemsg = bits[1].trim();
-                        getLogger().info(updatemsg);
-                        //ViveCommand.sendMessage(updatemsg, p);
-                        break;
-                    }
-                }
-                br.close();
-                if (updatemsg == null) {
-                    getLogger().info("Version not found. Are you from the future?");
-                }
-            } catch (IOException e) {
-                getLogger().severe("Error retrieving version list: " + e.getMessage());
-            }
-        }
     }
 
     public void setPermissionsGroup(Player p) {
