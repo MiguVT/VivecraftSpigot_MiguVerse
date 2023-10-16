@@ -3,7 +3,7 @@ import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 
 
 group = "org.vivecraft"
-version = "2.1.0"
+version = "2.1.1"
 
 plugins {
     `java-library`
@@ -69,7 +69,7 @@ repositories {
 dependencies {
     implementation(project(":")) // base project
 
-    listOf("19_R3", "20_R1").forEach {
+    listOf("19_R3", "20_R1", "20_R2").forEach {
         implementation(project(":Vivecraft_1_$it", "reobf"))
     }
 }
