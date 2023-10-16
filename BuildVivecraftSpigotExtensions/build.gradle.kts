@@ -92,7 +92,7 @@ tasks.named<ShadowJar>("shadowJar") {
     dependencies {
         include(project(":")) // base project
 
-        listOf("19_R3", "20_R1").forEach {
+        listOf("19_R3", "20_R1", "20_R2").forEach {
             include(dependency(":Vivecraft_1_$it"))
         }
 
