@@ -32,6 +32,7 @@ public final class CompatibilityAPI {
                 log.log(Level.WARNING, "Your version '" + version + "' is not fully supported");
                 log.log(Level.WARNING, "Check Spigot for a list of supported Minecraft versions");
                 log.log(Level.WARNING, "If you just updated your server to the newest version of Minecraft, make sure you update Vivecraft_Spigot_Extensions as well!");
+                log.log(Level.WARNING, "https://www.spigotmc.org/resources/111303/");
                 log.log(Level.WARNING, "The following features will now be disabled: ");
                 log.log(Level.WARNING, "  - CreeperRadius");
                 log.log(Level.WARNING, "  - Climbing");
@@ -39,10 +40,7 @@ public final class CompatibilityAPI {
                 log.log(Level.WARNING, "  - Enderman Staring");
                 log.log(Level.WARNING, "  - More features then this may be disabled.");
 
-                // When there is no class for this version of minecraft, we
-                // should use the 'Unknown' version. This allows *MOST* of the
-                // plugin to run, but the version dependent features will not
-                // work.
+                // Basic support for all versions
                 compatibility = new UnknownVivecraftCompatibility();
             }
         }

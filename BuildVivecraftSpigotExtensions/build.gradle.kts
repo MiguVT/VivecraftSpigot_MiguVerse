@@ -104,4 +104,3 @@ tasks.named<ShadowJar>("shadowJar") {
 tasks.named("assemble").configure {
     dependsOn("shadowJar")
 }
-
