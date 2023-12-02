@@ -2,8 +2,8 @@ import com.github.breadmoirai.githubreleaseplugin.GithubReleaseTask
 import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 
 
-group = "org.vivecraft"
-version = "2.1.1"
+group = "com.cjcrafter"
+version = "3.0.0"
 
 plugins {
     `java-library`
@@ -20,8 +20,7 @@ configurations {
 bukkit {
     name = "Vivecraft-Spigot-Extensions"
     main = "org.vivecraft.VSE"
-    apiVersion = "1.19"
-    website = "https://www.vivecraft.org"
+    apiVersion = "1.13"
     authors = listOf("jrbudda", "jaron780", "CJCrafter")
     prefix = "Vivecraft"
     softDepend = listOf("Vault")
