@@ -18,8 +18,8 @@ configurations {
 
 // See https://github.com/Minecrell/plugin-yml
 bukkit {
-    name = "Vivecraft-Spigot-Extensions"
-    main = "org.vivecraft.VSE"
+    name = "VivecraftSpigot"
+    main = "com.cjcrafter.vivecraft.VSE"
     apiVersion = "1.13"
     authors = listOf("jrbudda", "jaron780", "CJCrafter")
     prefix = "Vivecraft"
