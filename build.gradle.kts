@@ -87,6 +87,8 @@ publishing {
 
                 groupId = "com.cjcrafter"
                 artifactId = "vivecraft"
+                // version is set in the BuildVivecraftSpigotExtensions' build.gradle.kts file
+                version = "3.0.0"
 
                 licenses {
                     license {
