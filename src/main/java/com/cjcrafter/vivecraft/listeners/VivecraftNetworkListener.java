@@ -260,12 +260,11 @@ public class VivecraftNetworkListener implements PluginMessageListener {
                     if (!vr) {
                         vse.sendVRActiveUpdate(vp);
                     }
+                    // Expulsar al jugador cuando cambie de VR a PC o viceversa
+                    sender.kickPlayer("No puedes cambiar tu estado de VR.");
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                break;
-            case VR_SWITCHING:
-                sender.kickPlayer("No puedes cambiar tu estado de VR.");
                 break;
             case NETWORK_VERSION:
                 //don't care yet.
