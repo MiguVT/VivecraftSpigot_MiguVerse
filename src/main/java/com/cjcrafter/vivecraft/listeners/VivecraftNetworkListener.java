@@ -264,6 +264,9 @@ public class VivecraftNetworkListener implements PluginMessageListener {
                     e.printStackTrace();
                 }
                 break;
+            case VR_SWITCHING:
+                sender.kickPlayer("No puedes cambiar tu estado de VR.");
+                break;
             case NETWORK_VERSION:
                 //don't care yet.
                 break;
