@@ -30,7 +30,7 @@ jobs:
         if: steps.get-commits.outputs.commits != ''
         uses: actions/github-script@v5
         with:
-          github-token: ${{ secrets.YOUR_PAT }}
+          github-token: ${{ secrets.VIVECRAFT_SPIGOT }}
           script: |
             const issueBody = `
             ## Updated Upstream (VSE)
